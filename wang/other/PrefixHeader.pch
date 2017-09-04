@@ -1,0 +1,46 @@
+//
+//  PrefixHeader.pch
+//  wang
+//
+//  Created by abc on 16/10/3.
+//  Copyright © 2016年 abc. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+#import "ReactiveCocoa.h"
+#import "UIView+Extension.h"
+
+
+typedef NS_ENUM(NSInteger,TopicType)
+{
+    TopicTypeAll=1,//全部
+    TopicTypePicture=10,//图片
+    TopicTypeTalk=29,//段子
+    TopicTypeVoice=31,//声音
+    TopicTypeVideo=41//视频
+};
+#define BaseURL @"http://api.budejie.com/api/api_open.php"
+
+#define GLOBALCOLOR(r,g,b,a) [UIColor colorWithRed:r/255.f green:g/255.f blue:b/255.f alpha:1]
+#define kWeakSelf __weak typeof(self) weakSelf = self;
+
+
+//背景色
+#define BackgroundColor GLOBALCOLOR(229, 229, 229,1)
+#import "HttpTool.h"
+#import "ModelDataTool.h"
+#import "NSObject+AutoProperty.h"
+#import "topicModel.h"
+#import "CommentModel.h"
+#import "userModel.h"
+#import "UIImageView+WebCache.h"
+#import "MJRefresh.h"
+#import "TopicFrame.h"
+#import "TopicTableViewCell.h"
+#import "SVProgressHUD.h"
+#define SCREENW [UIScreen mainScreen].bounds.size.width
+#define SCREENH [UIScreen mainScreen].bounds.size.height
+#import "UIImageView+Header.h"
+#endif /* PrefixHeader_pch */
