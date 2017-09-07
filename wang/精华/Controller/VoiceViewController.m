@@ -12,6 +12,8 @@
 @property(nonatomic,assign)NSInteger page;
 @property(nonatomic,strong)ModelDataTool * Tool;
 @property (nonatomic,strong) NSMutableArray *topicFrames;
+/** 当加载下一页数据时需要的参数 */
+@property (nonatomic, copy) NSString *maxtime;
 @end
 
 @implementation VoiceViewController
@@ -36,6 +38,7 @@
     self.tableView.mj_header=[MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(getNewData)];
     self.tableView.mj_header.automaticallyChangeAlpha=YES;
     [self.tableView.mj_header beginRefreshing];
+      self.tableView.mj_footer=[MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(getMoreData)];
 }
 -(void)getNewData
 {
@@ -59,6 +62,26 @@
     }];
     
 }
+
+-(void)getMoreData{
+    NSInteger page = self.page+1;
+    kWeakSelf;
+    [self.Tool getDataWithMaxtime:self.maxtime page:@(page) TopicType:TopicTypeVoice parameterA:@"newlist" block:^(id json, id param) {
+        NSMutableArray *newArray = [NSMutableArray array];
+        for (topicModel *topic in json) {
+            TopicFrame *topicFrame = [[TopicFrame alloc]init];
+            topicFrame.model = topic;
+            [newArray addObject:topicFrame];
+        }
+        [weakSelf.topicFrames addObjectsFromArray:newArray];
+        [weakSelf.tableView reloadData];
+        weakSelf.page = page;
+        weakSelf.maxtime = param;
+        [weakSelf.tableView.mj_footer endRefreshing];
+        
+    }];
+}
+
 #pragma mark - Table view data source
 
 

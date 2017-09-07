@@ -17,6 +17,8 @@
 @property(nonatomic,assign)NSInteger page;
 @property(nonatomic,strong)ModelDataTool * Tool;
 @property (nonatomic,strong) NSMutableArray *topicFrames;
+/** 当加载下一页数据时需要的参数 */
+@property (nonatomic, copy) NSString *maxtime;
 
 @end
 
@@ -42,13 +44,16 @@
     self.tableView.mj_header=[MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(getNewData)];
     self.tableView.mj_header.automaticallyChangeAlpha=YES;
     [self.tableView.mj_header beginRefreshing];
+    
+    
+    self.tableView.mj_footer=[MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(getMoreData)];
 }
 -(void)getNewData
 {
     self.page=0;
     kWeakSelf;
     [self.topicFrames removeAllObjects];
-    [self.Tool getDataWithArrayType:TopicTypeAll parameaterA:@"newlist" block:^(id json, id param) {
+    [self.Tool getDataWithArrayType:TopicTypeAll parameaterA:@"newlist" block:^(id json, NSString * param) {
       
         for (topicModel * model in json) {
 
@@ -58,12 +63,33 @@
 
             
         }
-        [self.tableView reloadData];
+        weakSelf.maxtime = param;
+
+        [weakSelf.tableView reloadData];
         
-        [self.tableView.mj_header endRefreshing];
+        [weakSelf.tableView.mj_header endRefreshing];
 
     }];
     
+}
+
+-(void)getMoreData{
+    NSInteger page = self.page+1;
+    kWeakSelf;
+    [self.Tool getDataWithMaxtime:self.maxtime page:@(page) TopicType:TopicTypeAll parameterA:@"newlist" block:^(id json, id param) {
+        NSMutableArray *newArray = [NSMutableArray array];
+        for (topicModel *topic in json) {
+            TopicFrame *topicFrame = [[TopicFrame alloc]init];
+            topicFrame.model = topic;
+            [newArray addObject:topicFrame];
+        }
+        [weakSelf.topicFrames addObjectsFromArray:newArray];
+        [weakSelf.tableView reloadData];
+        weakSelf.page = page;
+        weakSelf.maxtime = param;
+        [weakSelf.tableView.mj_footer endRefreshing];
+
+    }];
 }
 #pragma mark - Table view data source
 
