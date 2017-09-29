@@ -1312,6 +1312,37 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		18549F381F6A2ABD0061F54F /* AD */ = {
+			isa = PBXGroup;
+			children = (
+				18549F391F6A2ABD0061F54F /* Controller */,
+				18549F3A1F6A2ABD0061F54F /* Model */,
+				18549F3B1F6A2ABD0061F54F /* View */,
+			);
+			path = AD;
+			sourceTree = "<group>";
+		};
+		18549F391F6A2ABD0061F54F /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		18549F3A1F6A2ABD0061F54F /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		18549F3B1F6A2ABD0061F54F /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		281596DE1DA3864A00C44D7E /* Tool */ = {
 			isa = PBXGroup;
 			children = (
@@ -2101,6 +2132,7 @@
 		281C34591D7C109800536F20 /* wang */ = {
 			isa = PBXGroup;
 			children = (
+				18549F381F6A2ABD0061F54F /* AD */,
 				281C345D1D7C109800536F20 /* AppDelegate.h */,
 				281C345E1D7C109800536F20 /* AppDelegate.m */,
 				281904E61DA1F7E10014EED3 /* 关注 */,
